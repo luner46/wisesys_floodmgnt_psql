@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>floodplt_psql</display-name>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <filter>
+    <filter-name>Set Character Encoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Set Character Encoding</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <filter-class>kr.go.hrfco.common.util.SecurityHeadersFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SecurityHeadersFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- 
+  <filter>
+  	<filter-name>CacheHeadersFilter</filter-name>
+  	<filter-class>kr.go.hrfco.common.util.CacheHeadersFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>CacheHeadersFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+   -->
+  
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      /WEB-INF/config/mybatis-context.xml
+      /WEB-INF/config/root-context.xml
+    </param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>floodplt_psql</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/config/servlet-context.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+    <async-supported>true</async-supported>
+    
+    <!-- 파일 업로드 크기 제한 (500MB) -->
+    <!-- 
+  	<multipart-config>
+      <max-file-size>524288000</max-file-size>
+      <max-request-size>524288000</max-request-size>
+      <file-size-threshold>0</file-size-threshold>
+  	</multipart-config>
+  	 -->
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>floodplt_psql</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Restricted HTTP Methods</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>PUT</http-method>
+      <http-method>DELETE</http-method>
+      <http-method>TRACE</http-method>
+      <http-method>COPY</http-method>
+      <http-method>MOVE</http-method>
+      <http-method>CONNECT</http-method>
+      <http-method>OPTION</http-method>
+      <http-method>HEAD</http-method>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Block WEB-INF</web-resource-name>
+      <url-pattern>/WEB-INF/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+
+  <error-page>
+    <error-code>400</error-code>
+    <location>/error/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>502</error-code>
+    <location>/error/error.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/error/error.jsp</location>
+  </error-page>
+
+  <session-config>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>true</secure>
+    </cookie-config>
+  </session-config>
+</web-app>
