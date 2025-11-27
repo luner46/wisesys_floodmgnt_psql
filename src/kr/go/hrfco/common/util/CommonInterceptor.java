@@ -110,8 +110,8 @@ public class CommonInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		//log.info("[postHandle]");
 		try {
-			if (commonDBConnectionUtil.isDatabaseAlive()) {log.info("DBConnection is Stable");commonDBConnectionUtil.disableUseBackup();}
-			else {log.info("DBConnection is Unstable"); commonDBConnectionUtil.enableUseBackup();}
+			if (commonDBConnectionUtil.isDatabaseAlive()) {commonDBConnectionUtil.disableUseBackup();}
+			else {commonDBConnectionUtil.enableUseBackup();}
 		} catch (IllegalStateException ie) {
 			log.error(ie.toString());
 		} catch (NullPointerException ne) {
@@ -145,7 +145,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 			request.setAttribute("isLogged", Boolean.TRUE);
 
 			if (requestURI == null) {return;}
-			else {log.info("Active Logging"); commonLoggerService.insertUserLog(requestURI, sessionId);}
+			else {commonLoggerService.insertUserLog(requestURI, sessionId);}
 		} catch (IllegalStateException ie) {
 			log.error(ie.toString());
 		} catch (NullPointerException ne) {

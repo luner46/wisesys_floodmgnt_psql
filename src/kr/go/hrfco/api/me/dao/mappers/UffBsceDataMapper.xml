@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UffBsceDataMapper">
+<select id="selectRealTimeUffBsceData" parameterType="map" resultType="kr.go.hrfco.api.me.vo.UffBsceDataVO">
+WITH a AS (SELECT			init_tm, bsn, rmse, wl, rn, dur, ox
+FROM						public.uff_bsce_data
+WHERE						init_tm = to_char(to_timestamp(#{realTime}, 'YYYYMMDDHH24MI') - INTERVAL '10 minutes', 'YYYYMMDDHH24MI')),
+b AS (SELECT				init_tm, bsn, rmse, wl, rn, dur, ox
+FROM						public.uff_bsce_data
+WHERE						init_tm = to_char(to_timestamp(#{realTime}, 'YYYYMMDDHH24MI') - INTERVAL '20 minutes', 'YYYYMMDDHH24MI')),
+c AS (SELECT				COALESCE(a.init_tm, b.init_tm) AS init_tm, COALESCE(a.bsn, b.bsn) AS bsn, a.rmse AS orgnlRmse, b.rmse AS subRmse, a.wl AS orgnlWl, b.wl AS subWl, a.rn AS orgnlRn, b.rn AS subRn, a.dur AS orgnlDur, b.dur AS subDur, a.ox AS orgnlOx, b.ox AS subOx
+FROM						a
+FULL OUTER JOIN				b
+ON							a.bsn = b.bsn),
+bsns AS (SELECT				DISTINCT bsn
+FROM						public.uff_bsce_data)
+SELECT						COALESCE(c.init_tm, to_char(to_timestamp(#{realTime}, 'YYYYMMDDHH24MI') - interval '10 minutes', 'YYYYMMDDHH24MI')) AS initTm, bsns.bsn AS bsn, COALESCE(c.orgnlRmse, '-999') AS orgnlRmse, COALESCE(c.subRmse, '-999') AS subRmse, COALESCE(c.orgnlWl, '-999') AS orgnlWl, COALESCE(c.subWl, '-999') AS subWl, COALESCE(c.orgnlRn, '-999') AS orgnlRn, COALESCE(c.subRn, '-999') AS subRn, COALESCE(c.orgnlDur, '-999') AS orgnlDur, COALESCE(c.subDur, '-999') AS subDur, COALESCE(c.orgnlOx, '-999') AS orgnlOx, COALESCE(c.subOx, '-999') AS subOx
+FROM						bsns
+LEFT OUTER JOIN				c
+ON							c.bsn = bsns.bsn
+ORDER BY					bsns.bsn ASC
+</select>
+</mapper>

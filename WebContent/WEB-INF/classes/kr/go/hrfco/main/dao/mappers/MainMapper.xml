@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MainMapper">
-<select id="selectHello" resultType="String">
-SELECT				'Hello from XML'
+<select id="selectPastMeWl10min" parameterType="map" resultType="kr.go.hrfco.api.me.vo.MeWlDataVO">
+WITH a AS (SELECT			yyyymmddhhmm, wlobscd, lat, lon, wl, fw
+FROM						public.me_wl_10min_qc
+WHERE						yyyymmddhhmm = to_char(to_timestamp(#{targetTime}, 'YYYYMMDDHH24MI') - interval '10 minutes', 'YYYYMMDDHH24MI')),
+b AS (SELECT				yyyymmddhhmm, wlobscd, lat, lon, wl, fw
+FROM						public.me_wl_10min_qc
+WHERE						yyyymmddhhmm = to_char(to_timestamp(#{targetTime}, 'YYYYMMDDHH24MI') - interval '20 minutes', 'YYYYMMDDHH24MI')),
+c AS (SELECT				a.yyyymmddhhmm AS yyyymmddhhmm, COALESCE(a.wlobscd, b.wlobscd) AS wlobscd, COALESCE(a.lat, b.lat) AS lat, COALESCE(a.lon, b.lon) AS lon, a.wl AS wlOrgVal, a.fw AS fwOrgVal, b.wl AS wlSubVal, b.fw AS fwSubVal
+FROM						a
+FULL OUTER JOIN				b
+ON							a.wlobscd = b.wlobscd)
+SELECT 						COALESCE(c.yyyymmddhhmm, to_char(to_timestamp(#{targetTime}, 'YYYYMMDDHH24MI') - interval '10 minutes', 'YYYYMMDDHH24MI')) AS yyyymmddhhmm, mwsi.wlobscd AS wlobscd, mwsi.obsnm AS obsnm, mwsi.agcnm AS agcnm, mwsi.addr AS addr, mwsi.etcaddr AS etcaddr, mwsi.lat AS lat, mwsi.lon AS lon, mwsi.geom AS geom, COALESCE(mwsi.pfg, '0') AS pfg, mwsi.gu_cd AS guCd, COALESCE(c.wlOrgVal, -999) AS wlOrgVal, COALESCE(c.fwOrgVal, -999) AS fwOrgVal, COALESCE(c.wlSubVal, -999) AS wlSubVal, COALESCE(c.fwSubVal, -999) AS fwSubVal
+FROM						public.me_wl_stn_info mwsi
+LEFT OUTER JOIN				c
+ON							c.wlobscd = mwsi.wlobscd
+ORDER BY					mwsi.wlobscd ASC
 </select>
 </mapper>

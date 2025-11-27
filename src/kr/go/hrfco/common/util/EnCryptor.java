@@ -19,9 +19,9 @@ public class EnCryptor {
     
     public static void main(String[] args) {
     	String encryptedDriverClassName = encryptor.encrypt("org.postgresql.Driver");
-        String encryptedURL = encryptor.encrypt("jdbc:postgresql://211.209.185.143:5432/flooddb?useUnicode=true&characterEncoding=utf-8");
-        String encryptedID = encryptor.encrypt("flooddb_dev");
-        String encryptedPWD = encryptor.encrypt("z&5YiUh!Qv");
+        String encryptedURL = encryptor.encrypt("jdbc:postgresql://192.168.0.180:5432/sims?useUnicode=true&characterEncoding=utf-8");
+        String encryptedID = encryptor.encrypt("sims_dev");
+        String encryptedPWD = encryptor.encrypt("Rpm4T*3uAd");
         
         // System.out.println("DB : " + encryptedDriverClassName+ " | Encrypted URL : " + encryptedURL + " | Encrypted ID : " + encryptedID + " | Encrypted PWD : " + encryptedPWD );
 	}

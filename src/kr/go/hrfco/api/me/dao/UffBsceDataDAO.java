@@ -1,4 +1,4 @@
-package kr.go.hrfco.main.dao;
+package kr.go.hrfco.api.me.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import kr.go.hrfco.api.me.vo.MeWlDataVO;
+import kr.go.hrfco.api.me.vo.UffBsceDataVO;
 
 /**
  * <pre>
- * @ClassName   : MainDAO
- * @Description : 메인 데이터 표출 DAO
+ * @ClassName   : UffBsceDataDAO
+ * @Description : Uff Bsce 실시간 데이터 DAO
  * @Modification
  *
  * -----------------------------------------------------
@@ -34,34 +34,34 @@ import kr.go.hrfco.api.me.vo.MeWlDataVO;
  */
 
 @Repository
-public class MainDAO {
-
-    @Autowired
-    @Qualifier("sqlSessionPostgre")
-    private SqlSessionTemplate sqlSession;
-
-	private final Logger log = LoggerFactory.getLogger(MainDAO.class);
+public class UffBsceDataDAO {
+	@Autowired
+	@Qualifier("sqlSessionPostgre")
+	private SqlSessionTemplate sqlSession;
+	
+	private final Logger log = LoggerFactory.getLogger(UffBsceDataDAO.class);
 
 	/**
-	 * 과거 특정 시점 환경부 수위 관측소 데이터 리턴 DAO
+	 * Uff Bsce 실시간 데이터 표출 DAO
 	 *
 	 * @author 최준규
 	 * @since 2025.11.27
-	 * @return List<MeWlDataVO> dataList
+	 * @return List<UffBsceDataVO> dataList
 	*/
 	
-    public List<MeWlDataVO> selectPastMeWl10min(HashMap<String, String> param){
-    	List<MeWlDataVO> dataList = new ArrayList<>();
-    	try {
-    		dataList = sqlSession.selectList("MainMapper.selectPastMeWl10min", param);
-    	} catch (MyBatisSystemException me) {
+	public List<UffBsceDataVO> selectRealTimeUffBsceData(HashMap<String, String> param){
+		List<UffBsceDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = sqlSession.selectList("UffBsceDataMapper.selectRealTimeUffBsceData", param);
+		} catch (MyBatisSystemException me) {
 			log.error(me.toString());
 		} catch (IllegalArgumentException ie) {
 			log.error(ie.toString());
 		} catch (PersistenceException pe) {
 			log.error(pe.toString());
 		}
-    	return dataList;
-    }
+		
+		return dataList;
+	}
 }
-

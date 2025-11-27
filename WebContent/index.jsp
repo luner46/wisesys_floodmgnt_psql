@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-   <jsp:forward page="/hello"/><%--액션태그를 실행하면 생성했던 출력 결과는 모두제거.--%>
+   <jsp:forward page="/mainMeWl10min"/><%--액션태그를 실행하면 생성했던 출력 결과는 모두제거.--%>
 
 <!DOCTYPE html>
 <html>

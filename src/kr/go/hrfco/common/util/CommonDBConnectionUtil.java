@@ -60,7 +60,7 @@ public class CommonDBConnectionUtil {
 	
 	public boolean isDatabaseAlive() {
 	    try (Connection connection = dataSource.getConnection()) {
-	        return connection.isValid(3000);
+	        return connection.isValid(3);
 	    } catch (Exception e) {
 	        return false;
 	    }

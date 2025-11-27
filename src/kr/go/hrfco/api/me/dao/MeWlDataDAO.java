@@ -1,4 +1,4 @@
-package kr.go.hrfco.main.dao;
+package kr.go.hrfco.api.me.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +17,8 @@ import kr.go.hrfco.api.me.vo.MeWlDataVO;
 
 /**
  * <pre>
- * @ClassName   : MainDAO
- * @Description : 메인 데이터 표출 DAO
+ * @ClassName   : MeWlDataDAO
+ * @Description : 환경부 수위 관측소 10분 데이터 DAO
  * @Modification
  *
  * -----------------------------------------------------
@@ -34,34 +34,34 @@ import kr.go.hrfco.api.me.vo.MeWlDataVO;
  */
 
 @Repository
-public class MainDAO {
-
-    @Autowired
+public class MeWlDataDAO {
+	@Autowired
     @Qualifier("sqlSessionPostgre")
-    private SqlSessionTemplate sqlSession;
-
-	private final Logger log = LoggerFactory.getLogger(MainDAO.class);
+	private SqlSessionTemplate sqlSession;
+	
+	private final Logger log = LoggerFactory.getLogger(MeWlDataDAO.class);
 
 	/**
-	 * 과거 특정 시점 환경부 수위 관측소 데이터 리턴 DAO
+	 * 환경부 수위 관측소 10분 자료 실시간 데이터 표출 DAO
 	 *
 	 * @author 최준규
 	 * @since 2025.11.27
 	 * @return List<MeWlDataVO> dataList
 	*/
 	
-    public List<MeWlDataVO> selectPastMeWl10min(HashMap<String, String> param){
-    	List<MeWlDataVO> dataList = new ArrayList<>();
-    	try {
-    		dataList = sqlSession.selectList("MainMapper.selectPastMeWl10min", param);
-    	} catch (MyBatisSystemException me) {
+	public List<MeWlDataVO> selectRealTimeMeWlData(HashMap<String, String> param){
+		List<MeWlDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = sqlSession.selectList("MeWlDataMapper.selectRealTimeMeWlData", param);
+		} catch (MyBatisSystemException me) {
 			log.error(me.toString());
 		} catch (IllegalArgumentException ie) {
 			log.error(ie.toString());
 		} catch (PersistenceException pe) {
 			log.error(pe.toString());
 		}
-    	return dataList;
-    }
+		
+		return dataList;
+	}
 }
-
