@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import kr.go.hrfco.api.me.vo.MeWlDataVO;
+import kr.go.hrfco.main.vo.LinkDataVO;
 
 /**
  * <pre>
@@ -54,6 +55,34 @@ public class MainDAO {
     	List<MeWlDataVO> dataList = new ArrayList<>();
     	try {
     		dataList = sqlSession.selectList("MainMapper.selectPastMeWl10min", param);
+    	} catch (MyBatisSystemException me) {
+			log.error(me.toString());
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (PersistenceException pe) {
+			log.error(pe.toString());
+		}
+    	return dataList;
+    }
+    
+    public List<LinkDataVO> selectAy01LinkData(){
+    	List<LinkDataVO> dataList = new ArrayList<>();
+    	try {
+    		dataList = sqlSession.selectList("MainMapper.selectAy01LinkData");
+    	} catch (MyBatisSystemException me) {
+			log.error(me.toString());
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (PersistenceException pe) {
+			log.error(pe.toString());
+		}
+    	return dataList;
+    }
+
+    public List<LinkDataVO> selectAy01NodeData(){
+    	List<LinkDataVO> dataList = new ArrayList<>();
+    	try {
+    		dataList = sqlSession.selectList("MainMapper.selectAy01NodeData");
     	} catch (MyBatisSystemException me) {
 			log.error(me.toString());
 		} catch (IllegalArgumentException ie) {

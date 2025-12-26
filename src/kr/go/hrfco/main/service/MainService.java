@@ -16,6 +16,7 @@ import kr.go.hrfco.api.util.CommonSnapShotStorage;
 import kr.go.hrfco.api.vo.MeWlDataSnapShotVO;
 import kr.go.hrfco.api.vo.UffBsceDataSnapShotVO;
 import kr.go.hrfco.main.dao.MainDAO;
+import kr.go.hrfco.main.vo.LinkDataVO;
 
 /**
  * <pre>
@@ -120,7 +121,35 @@ public class MainService {
 		
 		return dataList;
 	}
+	
+	public List<LinkDataVO> selectAy01LinkData(){
+		List<LinkDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = dao.selectAy01LinkData();
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (NullPointerException ne) {
+			log.error(ne.toString());
+		}
+		
+		return dataList;
+	}
 
+	public List<LinkDataVO> selectAy01NodeData(){
+		List<LinkDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = dao.selectAy01NodeData();
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (NullPointerException ne) {
+			log.error(ne.toString());
+		}
+		
+		return dataList;
+	}
+	
 	/**
 	 * 데이터 후처리 보정 및 보정
 	 *

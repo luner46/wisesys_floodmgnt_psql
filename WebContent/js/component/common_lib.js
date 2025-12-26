@@ -44,7 +44,7 @@ var hybrid = new ol.layer.Tile({
     visible: true,
     extent: [-20037508.3428, -20037508.3428, 20037508.3428, 20037508.3428],
     source: new ol.source.XYZ({
-		url: "/vworld/2d/Hybrid/service/{z}/{x}/{y}.png",
+		url : "https://xdworld.vworld.kr/2d/Hybrid/service/{z}/{x}/{y}.png",
 		crossOrigin: 'anonymous'
     })
 });
@@ -54,7 +54,7 @@ var gray = new ol.layer.Tile({
     visible: true,
     extent: [-20037508.3428, -20037508.3428, 20037508.3428, 20037508.3428],
     source: new ol.source.XYZ({
-		url: "/vworld/2d/gray/service/{z}/{x}/{y}.png",
+		url : "https://xdworld.vworld.kr/2d/gray/service/{z}/{x}/{y}.png",
 		crossOrigin: 'anonymous'
     })
 });
@@ -64,7 +64,7 @@ var midnight = new ol.layer.Tile({
     visible: true,
     extent: [-20037508.3428, -20037508.3428, 20037508.3428, 20037508.3428],
     source: new ol.source.XYZ({
-		url: "/vworld/2d/midnight/service/{z}/{x}/{y}.png",
+		url : "https://xdworld.vworld.kr/2d/midnight/service/{z}/{x}/{y}.png",
 		crossOrigin: 'anonymous'
     }) 
 }); 

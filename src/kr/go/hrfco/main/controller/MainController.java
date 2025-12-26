@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.go.hrfco.api.me.vo.UffBsceDataVO;
 import kr.go.hrfco.api.me.vo.MeWlDataVO;
 import kr.go.hrfco.main.service.MainService;
+import kr.go.hrfco.main.vo.LinkDataVO;
+
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -60,6 +62,19 @@ public class MainController {
     	} catch (IllegalArgumentException ie) {
     		log.error(ie.toString());
     		return "../../error/error";
+    	} catch (NullPointerException ne) {
+    		log.error(ne.toString());
+    		return "../../error/error";
+    	}
+    }
+    
+    @RequestMapping("/mainLayerOptimize")
+    public String mainLayerOptimize(Model model) {
+    	try {
+    		return "/main/image_layer_optimize";
+    	} catch (IllegalArgumentException ie) {
+	   		log.error(ie.toString());
+	   		return "../../error/error";
     	} catch (NullPointerException ne) {
     		log.error(ne.toString());
     		return "../../error/error";
@@ -129,6 +144,38 @@ public class MainController {
 		
 		try {
 			dataList = service.selectRealTimeUffBsceData();
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (NullPointerException ne) {
+			log.error(ne.toString());
+		}
+		
+		return dataList;
+	}
+
+    @RequestMapping("/selectAy01LinkData")
+    @ResponseBody
+	public List<LinkDataVO> selectAy01LinkData() {
+		List<LinkDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = service.selectAy01LinkData();
+		} catch (IllegalArgumentException ie) {
+			log.error(ie.toString());
+		} catch (NullPointerException ne) {
+			log.error(ne.toString());
+		}
+		
+		return dataList;
+	}
+	
+	@RequestMapping("/selectAy01NodeData")
+    @ResponseBody
+	public List<LinkDataVO> selectAy01NodeData() {
+		List<LinkDataVO> dataList = new ArrayList<>();
+		
+		try {
+			dataList = service.selectAy01NodeData();
 		} catch (IllegalArgumentException ie) {
 			log.error(ie.toString());
 		} catch (NullPointerException ne) {

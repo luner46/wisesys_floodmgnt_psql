@@ -18,4 +18,18 @@ LEFT OUTER JOIN				c
 ON							c.wlobscd = mwsi.wlobscd
 ORDER BY					mwsi.wlobscd ASC
 </select>
+
+<select id="selectAy01LinkData" resultType="kr.go.hrfco.main.vo.LinkDataVO">
+SELECT					t.gid AS gid, t.name AS name, t.smh AS smh, t.emh AS emh, t.length AS length, t.slope AS slope, ST_X(ST_StartPoint(t.line2d)) AS startX, ST_Y(ST_StartPoint(t.line2d)) AS startY, ST_X(t.center_geom) AS centerX, ST_Y(t.center_geom) AS centerY, t.angle_deg AS angleDeg
+FROM (SELECT			s.gid, s.name, s.smh, s.emh, s.length, s.slope, s.line2d, ST_LineInterpolatePoint(s.line2d, 0.5) AS center_geom, degrees(ST_Azimuth(ST_StartPoint(s.line2d), ST_EndPoint(s.line2d))) AS angle_deg
+FROM (SELECT			alv.gid, name, alv.smh, alv.emh, alv.length, alv.slope, ST_LineMerge(ST_Force2D(ST_Transform(alv.geom, 3857))) AS line2d
+FROM 					public.ay01_link_v3 alv) s) t
+WHERE					gid <![CDATA[ < ]]> 301
+</select>
+
+<select id="selectAy01NodeData" resultType="kr.go.hrfco.main.vo.LinkDataVO">
+SELECT					t.gid AS gid, t.name AS name, t.area AS area, t.width AS width, t.slope AS slope, ST_X(t.geom_3857) AS centerX, ST_Y(t.geom_3857) AS centerY
+FROM (SELECT			n.gid, n.name, n.area, n.width, n.slope, ST_Transform(ST_Force2D(n.geom), 3857) AS geom_3857
+FROM					public.ay01_node_v2 n) t
+</select>
 </mapper>

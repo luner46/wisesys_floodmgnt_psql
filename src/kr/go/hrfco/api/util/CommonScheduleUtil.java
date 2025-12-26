@@ -47,6 +47,7 @@ public class CommonScheduleUtil {
 	 * @since 2025.11.27
 	*/
 	
+	/*
 	@PostConstruct
 	public void init() {
 		try {
@@ -56,6 +57,7 @@ public class CommonScheduleUtil {
 			log.error(e.toString());
 		}
 	}
+	*/
 
 	/**
 	 * 10분 단위 데이터 수집
@@ -64,6 +66,7 @@ public class CommonScheduleUtil {
 	 * @since 2025.11.27
 	*/
 	
+	/*
 	@Scheduled(cron = "0 2,12,22,32,42,52 * * * *")
 	public void getRealTimeData() {
 		try {
@@ -75,4 +78,5 @@ public class CommonScheduleUtil {
 			log.error(ne.toString());
 		}
 	}
+	*/
 }
